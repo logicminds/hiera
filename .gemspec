@@ -12,6 +12,11 @@ rescue LoadError
   require 'hiera/version'
 end
 
+def json_pure_version
+  # json_pure 2.0.2 now requires ruby 2.0.0
+   Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.0.0') ? '<= 2.0.1' : '>= 0'
+end
+
 Gem::Specification.new do |s|
   s.name = "hiera"
   version = Hiera.version
@@ -34,11 +39,11 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<json_pure>, [">= 0"])
+      s.add_runtime_dependency(%q<json_pure>, [json_pure_version])
     else
-      s.add_dependency(%q<json_pure>, [">= 0"])
+      s.add_dependency(%q<json_pure>, [json_pure_version])
     end
   else
-    s.add_dependency(%q<json_pure>, [">= 0"])
+    s.add_dependency(%q<json_pure>, [json_pure_version])
   end
 end
